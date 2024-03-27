@@ -68,7 +68,7 @@ body{
     margin-right: 10px;
 }
 
-.top-bar, .progress-area .song-timer, .controls, .music-list .header, .music-list ul li {
+.progress-area .song-timer, .controls, .music-list .header, .music-list ul li {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -355,86 +355,4 @@ input[type="range"]::-webkit-slider-thumb {
 
 ul li .audio-duration{
     font-size: 16px;
-}
-
-.rotate {
-    animation: rotation 7s infinite linear;
-}
-@keyframes rotation {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(359deg);
-    }
-}
-
-.loader {
-    padding-top: 15px;
-    height: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.loader .stroke{
-    background: #f1f1f1;
-    height: 120%;
-    width: 8px;
-    border-radius: 50px;
-    margin: 0 5px;
-    animation: animate 1s linear infinite;
-}
-
-@keyframes animate {
-    30% {
-        height: 20%;
-        background: #79397d;
-    }
-
-    50% {
-        height: 50%;
-        background: #93438b;
-    }
-  
-    100% {
-        background: #87267a;
-        height: 100%;
-    }
-}
-
-.stroke:nth-child(1){
-    animation-delay: 0s;
-}
-
-.stroke:nth-child(2){
-    animation-delay: 0.6s;
-}
-
-.stroke:nth-child(3){
-    animation-delay: 0.2s;
-}
-
-.stroke:nth-child(4){
-    animation-delay: 0.4s;
-}
-
-.stroke:nth-child(5){
-    animation-delay: 0.8s;
-}
-
-.stroke:nth-child(6){
-    animation-delay: 0.4s;
-}
-
-.stroke:nth-child(7){
-    animation-delay: 0.2s;
-}
-
-.stroke:nth-child(8){
-    animation-delay: 0.6s;
-}
-
-.stroke:nth-child(9){
-    animation-delay: 0s;
 }

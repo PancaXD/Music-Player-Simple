@@ -15,7 +15,6 @@ closemoreMusic = musicList.querySelector("#close");
 
 let recent_volume = document.querySelector('#volume');
 let volume_show = document.querySelector('#volume_show');
-let wave = document.getElementById('wave');
 
 
 
@@ -38,7 +37,6 @@ function playMusic(){
   wrapper.classList.add("paused");
   playPauseBtn.querySelector("i").innerText = "pause";
   mainAudio.play();
-  wave.classList.add('loader');
 }
 
 //pause music function
@@ -46,7 +44,6 @@ function pauseMusic(){
   wrapper.classList.remove("paused");
   playPauseBtn.querySelector("i").innerText = "play_arrow";
   mainAudio.pause();
-  wave.classList.remove('loader');
 }
 
 //prev music function
