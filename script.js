@@ -1,6 +1,5 @@
 let now_playing = document.querySelector('.now-playing');
 const wrapper = document.querySelector(".wrapper"),
-musicImg = wrapper.querySelector(".img-area img"),
 musicName = wrapper.querySelector(".song-details .name"),
 musicArtist = wrapper.querySelector(".song-details .artist"),
 playPauseBtn = wrapper.querySelector(".play-pause"),
@@ -31,7 +30,6 @@ window.addEventListener("load", ()=>{
 function loadMusic(indexNumb){
   musicName.innerText = allMusic[indexNumb - 1].name;
   musicArtist.innerText = allMusic[indexNumb - 1].artist;
-  musicImg.src = `images/${allMusic[indexNumb - 1].src}.jpg`;
   mainAudio.src = `songs/${allMusic[indexNumb - 1].src}.mp3`;
 }
 
@@ -41,7 +39,6 @@ function playMusic(){
   playPauseBtn.querySelector("i").innerText = "pause";
   mainAudio.play();
   wave.classList.add('loader');
-  musicImg.classList.add('rotate');
 }
 
 //pause music function
@@ -50,7 +47,6 @@ function pauseMusic(){
   playPauseBtn.querySelector("i").innerText = "play_arrow";
   mainAudio.pause();
   wave.classList.remove('loader');
-  musicImg.classList.remove('rotate');
 }
 
 //prev music function
