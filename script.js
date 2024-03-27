@@ -27,9 +27,8 @@ window.addEventListener("load", ()=>{
 });
 
 function loadMusic(indexNumb){
-  musicName.innerText = allMusic[indexNumb - 1].name;
-  musicArtist.innerText = allMusic[indexNumb - 1].artist;
-  mainAudio.src = `songs/${allMusic[indexNumb - 1].src}.mp3`;
+  musicName.innerText = allMusic[indexNumb - 1];
+  mainAudio.src = `songs/${allMusic[indexNumb - 1]}`;
 }
 
 //play music function
@@ -184,16 +183,15 @@ for (let i = 0; i < allMusic.length; i++) {
   //let's pass the song name, artist from the array
   let liTag = `<li li-index="${i + 1}">
                 <div class="row">
-                  <span>${allMusic[i].name}</span>
-                  <p>${allMusic[i].artist}</p>
+                  <span>${allMusic[i]}</span>
                 </div>
-                <span id="${allMusic[i].src}" class="audio-duration">3:40</span>
-                <audio class="${allMusic[i].src}" src="songs/${allMusic[i].src}.mp3"></audio>
+                <span id="${allMusic[i]}" class="audio-duration">3:40</span>
+                <audio class="${allMusic[i]}" src="songs/${allMusic[i]}"></audio>
               </li>`;
   ulTag.insertAdjacentHTML("beforeend", liTag); //inserting the li inside ul tag
 
-  let liAudioDuartionTag = ulTag.querySelector(`#${allMusic[i].src}`);
-  let liAudioTag = ulTag.querySelector(`.${allMusic[i].src}`);
+  let liAudioDuartionTag = ulTag.querySelector(`#${allMusic[i]}`);
+  let liAudioTag = ulTag.querySelector(`.${allMusic[i]}`);
   liAudioTag.addEventListener("loadeddata", ()=>{
     let duration = liAudioTag.duration;
     let totalMin = Math.floor(duration / 60);
