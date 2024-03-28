@@ -179,24 +179,29 @@ closemoreMusic.addEventListener("click", ()=>{
 
 const ulTag = wrapper.querySelector("ul");
 // let create li tags according to array length for list
+
 for (let i = 0; i < allMusic.length; i++) {
+  let musicNameShort = allMusic[i].replace(".mp3", "");
+
   //let's pass the song name, artist from the array
   let liTag = `<li li-index="${i + 1}">
                 <div class="row">
                   <span>${allMusic[i]}</span>
                 </div>
-                <span id="${allMusic[i]}" class="audio-duration">3:40</span>
-                <audio class="${allMusic[i]}" src="songs/${allMusic[i]}"></audio>
+                <span id="${musicNameShort}" class="audio-duration">3:40</span>
+                <audio class="${musicNameShort}" src="songs/${allMusic[i]}"></audio>
               </li>`;
+
   ulTag.insertAdjacentHTML("beforeend", liTag); //inserting the li inside ul tag
 
-  let liAudioDuartionTag = ulTag.querySelector(`#${allMusic[i]}`);
-  let liAudioTag = ulTag.querySelector(`.${allMusic[i]}`);
+  let liAudioDuartionTag = ulTag.querySelector(`#${musicNameShort}`);
+  let liAudioTag = ulTag.querySelector(`.${musicNameShort}`);
+
   liAudioTag.addEventListener("loadeddata", ()=>{
     let duration = liAudioTag.duration;
     let totalMin = Math.floor(duration / 60);
     let totalSec = Math.floor(duration % 60);
-    if(totalSec < 10){ //if sec is less than 10 then add 0 before it
+    if (totalSec < 10) { //if sec is less than 10 then add 0 before it
       totalSec = `0${totalSec}`;
     };
     liAudioDuartionTag.innerText = `${totalMin}:${totalSec}`; //passing total duation of song
@@ -234,6 +239,7 @@ function clicked(element){
   loadMusic(musicIndex);
   playMusic();
   playingSong();
+  moreMusicBtn.click();
 }
 
 //mute sound function
