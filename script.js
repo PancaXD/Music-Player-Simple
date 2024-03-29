@@ -16,6 +16,7 @@ closemoreMusic = musicList.querySelector("#close");
 let recent_volume = document.querySelector('#volume');
 let volume_show = document.querySelector('#volume_show');
 
+mainAudio.volume = recent_volume.value / 100;
 
 
 let musicIndex = Math.floor((Math.random() * allMusic.length) + 1);
@@ -118,7 +119,7 @@ progressArea.addEventListener("click", (e)=>{
   let songDuration = mainAudio.duration; //getting song total duration
   
   mainAudio.currentTime = (clickedOffsetX / progressWidth) * songDuration;
-  playMusic(); //calling playMusic function
+  //playMusic(); //calling playMusic function
   playingSong();
 });
 
