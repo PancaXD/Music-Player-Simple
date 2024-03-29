@@ -29,6 +29,7 @@ window.addEventListener("load", ()=>{
 
 function loadMusic(indexNumb){
   musicName.innerText = allMusic[indexNumb - 1];
+  musicArtist.innerText = allArtist[indexNumb - 1];
   mainAudio.src = `songs/${allMusic[indexNumb - 1]}`;
 }
 
