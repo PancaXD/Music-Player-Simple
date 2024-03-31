@@ -41,7 +41,6 @@ body {
     padding: 25px 30px;
     overflow: hidden;
     position: relative;
-    border-radius: 15px;
     background: linear-gradient(45deg, steelblue, mediumaquamarine);
 	border: 2px solid skyblue;
     box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.25);
@@ -78,8 +77,10 @@ div.song-details {
 	border: 2px solid skyblue;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	background-color: rgb(255, 0, 0);
     white-space: nowrap;
+	background: linear-gradient(217deg, rgba(75, 168, 128, 0.8), rgba(255,0,0,0) 70.71%),
+				linear-gradient(127deg, rgba(39, 73, 104, 0.8), rgba(0,255,0,0) 70.71%),
+				linear-gradient(336deg, rgba(28, 66, 215, 0.8), rgba(0,0,255,0) 70.71%);
 }
 
 .name {
