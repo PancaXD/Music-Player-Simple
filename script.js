@@ -1,134 +1,115 @@
-let now_playing = document.querySelector('.now-playing');
-const wrapper = document.querySelector(".wrapper"),
-musicName = wrapper.querySelector(".song-details .name"),
-musicArtist = wrapper.querySelector(".song-details .artist"),
-playPauseBtn = wrapper.querySelector(".play-pause"),
-prevBtn = wrapper.querySelector("#prev"),
-nextBtn = wrapper.querySelector("#next"),
-mainAudio = wrapper.querySelector("#main-audio"),
-progressArea = wrapper.querySelector(".progress-area"),
-progressBar = progressArea.querySelector(".progress-bar"),
-musicList = wrapper.querySelector(".music-list"),
-moreMusicBtn = wrapper.querySelector("#more-music"),
-
-closemoreMusic = musicList.querySelector("#close");
-
-let recent_volume = document.querySelector('#volume');
-let volume_show = document.querySelector('#volume_show');
+let now_playing    = document.querySelector('.now-playing');
+let recent_volume  = document.querySelector('#volume');
+let volume_show    = document.querySelector('#volume_show');
+const wrapper        = document.querySelector(".wrapper");
+const repeatBtn      = wrapper.querySelector("#repeat-plist");
+const musicName      = wrapper.querySelector(".song-details .name");
+const musicArtist    = wrapper.querySelector(".song-details .artist");
+const playPauseBtn   = wrapper.querySelector(".play-pause");
+const prevBtn        = wrapper.querySelector("#prev");
+const nextBtn        = wrapper.querySelector("#next");
+const mainAudio      = wrapper.querySelector("#main-audio");
+const progressArea   = wrapper.querySelector(".progress-area");
+const progressBar    = progressArea.querySelector(".progress-bar");
+const musicList      = wrapper.querySelector(".music-list");
+const moreMusicBtn   = wrapper.querySelector("#more-music");
+const closemoreMusic = musicList.querySelector("#close");
 
 mainAudio.volume = recent_volume.value / 100;
-
 
 let musicIndex = Math.floor((Math.random() * allMusic.length) + 1);
 isMusicPaused = true;
 
-window.addEventListener("load", ()=>{
+window.addEventListener("load", () => {
   loadMusic(musicIndex);
   playingSong(); 
 });
 
-function loadMusic(indexNumb){
+function loadMusic(indexNumb) {
   musicName.innerText = allMusic[indexNumb - 1];
   musicArtist.innerText = allArtist[indexNumb - 1];
   mainAudio.src = `songs/${allMusic[indexNumb - 1]}`;
 }
 
-//play music function
-function playMusic(){
+function playMusic() {
   wrapper.classList.add("paused");
   playPauseBtn.querySelector("i").innerText = "pause";
   mainAudio.play();
 }
 
-//pause music function
-function pauseMusic(){
+function pauseMusic() {
   wrapper.classList.remove("paused");
   playPauseBtn.querySelector("i").innerText = "play_arrow";
   mainAudio.pause();
 }
 
-//prev music function
-function prevMusic(){
-  musicIndex--; //decrement of musicIndex by 1
-  //if musicIndex is less than 1 then musicIndex will be the array length so the last music play
+function prevMusic() {
+  musicIndex--;
+  // if musicIndex < 1 musicIndex will be the array length so the last music play
   musicIndex < 1 ? musicIndex = allMusic.length : musicIndex = musicIndex;
   loadMusic(musicIndex);
   playMusic();
   playingSong(); 
 }
 
-//next music function
-function nextMusic(){
-  musicIndex++; //increment of musicIndex by 1
-  //if musicIndex is greater than array length then musicIndex will be 1 so the first music play
+function nextMusic() {
+  musicIndex++;
+  // if musicIndex > array length musicIndex will be 1 so the first music play
   musicIndex > allMusic.length ? musicIndex = 1 : musicIndex = musicIndex;
   loadMusic(musicIndex);
   playMusic();
   playingSong(); 
 }
 
-// play or pause button event
-playPauseBtn.addEventListener("click", ()=>{
+function togglePlay() {
   const isMusicPlay = wrapper.classList.contains("paused");
-  //if isPlayMusic is true then call pauseMusic else call playMusic
   isMusicPlay ? pauseMusic() : playMusic();
   playingSong();
-});
+}
 
-//prev music button event
-prevBtn.addEventListener("click", ()=>{
-  prevMusic();
-});
-
-//next music button event
-nextBtn.addEventListener("click", ()=>{
-  nextMusic();
-});
-
-// update progress bar width according to music current time
-mainAudio.addEventListener("timeupdate", (e)=>{
-  const currentTime = e.target.currentTime; //getting playing song currentTime
-  const duration = e.target.duration; //getting playing song total duration
+function updateProgressBar() {
+  const currentTime = e.target.currentTime;
+  const duration = e.target.duration;
   let progressWidth = (currentTime / duration) * 100;
   progressBar.style.width = `${progressWidth}%`;
 
   let musicCurrentTime = wrapper.querySelector(".current-time"),
   musicDuartion = wrapper.querySelector(".max-duration");
-  mainAudio.addEventListener("loadeddata", ()=>{
-    // update song total duration
+
+
+  // update song total duration
+  mainAudio.addEventListener("loadeddata", () => {
     let mainAdDuration = mainAudio.duration;
     let totalMin = Math.floor(mainAdDuration / 60);
     let totalSec = Math.floor(mainAdDuration % 60);
-    if(totalSec < 10){ //if sec is less than 10 then add 0 before it
-      totalSec = `0${totalSec}`;
-    }
+
+    // if < 10 add 0 before it
+    if (totalSec < 10) totalSec = `0${totalSec}`;
+
     musicDuartion.innerText = `${totalMin}:${totalSec}`;
   });
+
   // update playing song current time
   let currentMin = Math.floor(currentTime / 60);
   let currentSec = Math.floor(currentTime % 60);
-  if(currentSec < 10){ //if sec is less than 10 then add 0 before it
-    currentSec = `0${currentSec}`;
-  }
+
+  // if < 10 add 0 before it
+  if(currentSec < 10) currentSec = `0${currentSec}`;
+
   musicCurrentTime.innerText = `${currentMin}:${currentSec}`;
-});
+}
 
-// update playing song currentTime on according to the progress bar width
-progressArea.addEventListener("click", (e)=>{
-  let progressWidth = progressArea.clientWidth; //getting width of progress bar
-  let clickedOffsetX = e.offsetX; //getting offset x value
-  let songDuration = mainAudio.duration; //getting song total duration
-  
+function updatePlayTime() {
+  let progressWidth = progressArea.clientWidth;
+  let clickedOffsetX = e.offsetX;
+  let songDuration = mainAudio.duration;
   mainAudio.currentTime = (clickedOffsetX / progressWidth) * songDuration;
-  //playMusic(); //calling playMusic function
   playingSong();
-});
+}
 
-//change loop, shuffle, repeat icon onclick
-const repeatBtn = wrapper.querySelector("#repeat-plist");
-repeatBtn.addEventListener("click", ()=>{
-  let getText = repeatBtn.innerText; //getting this tag innerText
-  switch(getText){
+function toggleLoopRepeatShuffle() {
+  let getText = repeatBtn.innerText;
+  switch(getText) {
     case "repeat":
       repeatBtn.innerText = "repeat_one";
       repeatBtn.setAttribute("title", "Song looped");
@@ -142,14 +123,13 @@ repeatBtn.addEventListener("click", ()=>{
       repeatBtn.setAttribute("title", "Playlist looped");
       break;
   }
-});
+}
 
-//code for what to do after song ended
-mainAudio.addEventListener("ended", ()=>{
+function decideActionOnSongEnd() {
   // we'll do according to the icon means if user has set icon to
   // loop song then we'll repeat the current song and will do accordingly
   let getText = repeatBtn.innerText; //getting this tag innerText
-  switch(getText){
+  switch(getText) {
     case "repeat":
       nextMusic(); //calling nextMusic function
       break;
@@ -169,15 +149,20 @@ mainAudio.addEventListener("ended", ()=>{
       playingSong();
       break;
   }
-});
+}
 
-//show music list onclick of music icon
-moreMusicBtn.addEventListener("click", ()=>{
-  musicList.classList.toggle("show");
-});
-closemoreMusic.addEventListener("click", ()=>{
-  moreMusicBtn.click();
-});
+const toggleMusicList = () => musicList.classList.toggle("show");
+
+// events
+playPauseBtn.addEventListener("click", () => togglePlay());
+prevBtn.addEventListener("click", () => prevMusic());
+nextBtn.addEventListener("click", () => nextMusic());
+mainAudio.addEventListener("timeupdate", (e) => updateProgressBar());
+progressArea.addEventListener("click", (e) => updatePlayTime());
+repeatBtn.addEventListener("click", () => toggleLoopRepeatShuffle());
+mainAudio.addEventListener("ended", () => decideActionOnSongEnd());
+moreMusicBtn.addEventListener("click", () => toggleMusicList());
+closemoreMusic.addEventListener("click", () => toggleMusicList());
 
 const ulTag = wrapper.querySelector("ul");
 // let create li tags according to array length for list
@@ -199,7 +184,7 @@ for (let i = 0; i < allMusic.length; i++) {
   let liAudioDuartionTag = ulTag.querySelector(`#${musicNameShort}`);
   let liAudioTag = ulTag.querySelector(`.${musicNameShort}`);
 
-  liAudioTag.addEventListener("loadeddata", ()=>{
+  liAudioTag.addEventListener("loadeddata", () => {
     let duration = liAudioTag.duration;
     let totalMin = Math.floor(duration / 60);
     let totalSec = Math.floor(duration % 60);
@@ -212,20 +197,20 @@ for (let i = 0; i < allMusic.length; i++) {
 }
 
 //play particular song from the list onclick of li tag
-function playingSong(){
+function playingSong() {
   const allLiTag = ulTag.querySelectorAll("li");
   
   for (let j = 0; j < allLiTag.length; j++) {
     let audioTag = allLiTag[j].querySelector(".audio-duration");
     
-    if(allLiTag[j].classList.contains("playing")){
+    if(allLiTag[j].classList.contains("playing")) {
       allLiTag[j].classList.remove("playing");
       let adDuration = audioTag.getAttribute("t-duration");
       audioTag.innerText = adDuration;
     }
 
     //if the li tag index is equal to the musicIndex then add playing class in it
-    if(allLiTag[j].getAttribute("li-index") == musicIndex){
+    if(allLiTag[j].getAttribute("li-index") == musicIndex) {
       allLiTag[j].classList.add("playing");
       audioTag.innerText = "Playing";
     }
@@ -235,7 +220,7 @@ function playingSong(){
 }
 
 //particular li clicked function
-function clicked(element){
+function clicked(element) {
   let getLiIndex = element.getAttribute("li-index");
   musicIndex = getLiIndex; //updating current song index with clicked li index
   loadMusic(musicIndex);
