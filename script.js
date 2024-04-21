@@ -1,3 +1,5 @@
+let allMusic = [];
+let musicIndex = 0;
 let now_playing   = document.querySelector('.now-playing');
 let recent_volume = document.querySelector('#volume');
 let volume_show   = document.querySelector('#volume_show');
@@ -18,17 +20,15 @@ const musicList      = wrapper.querySelector(".music-list");
 const moreMusicBtn   = wrapper.querySelector("#more-music");
 const closemoreMusic = musicList.querySelector("#close");
 
-let allMusic = [ ];
-
-const loadFiles = () => {
-  allMusic = [...chooseFolder.files].map( file => file.name );
-  loadMusic(musicIndex);
-  playSongFromList(); 
-}
-
 mainAudio.volume = recent_volume.value / 100;
 
-let musicIndex = Math.floor((Math.random() * allMusic.length) + 1);
+function loadFiles() {
+  allMusic = [...chooseFolder.files].map( file => file.name );
+  musicIndex = Math.floor((Math.random() * allMusic.length) + 1);
+  loadMusic(musicIndex);
+  loadMusicList();
+  playSongFromList(); 
+}
 
 function loadMusic(index) {
   musicName.innerText = allMusic[index - 1];
@@ -158,34 +158,36 @@ closemoreMusic.addEventListener("click", () => toggleMusicList());
 
 const ulTag = wrapper.querySelector("ul");
 
-// let create li tags according to array length for list
-for (let i = 0; i < allMusic.length; i++) {
-  const songName      = allMusic[i]
-  const songNameShort = songName.replace(".mp3", "");
+function loadMusicList() {
+  // let create li tags according to array length for list
+  for (let i = 0; i < allMusic.length; i++) {
+    const songName      = allMusic[i]
+    const songNameShort = songName.replace(".mp3", "");
 
-  //let's pass the song name, artist from the array
-  let liTag = `<li li-index="${i + 1}">
-                <div class="row">
-                  <span>${songName}</span>
-                </div>
-                <span id="${songNameShort}" class="audio-duration">3:40</span>
-                <audio class="${songNameShort}" src="songs/${songName}"></audio>
-              </li>`;
+    //let's pass the song name, artist from the array
+    let liTag = `<li li-index="${i + 1}">
+                  <div class="row">
+                    <span>${songName}</span>
+                  </div>
+                  <span id="${songNameShort}" class="audio-duration">3:40</span>
+                  <audio class="${songNameShort}" src="songs/${songName}"></audio>
+                </li>`;
 
-  //inserting the li inside ul tag
-  ulTag.insertAdjacentHTML("beforeend", liTag);
+    //inserting the li inside ul tag
+    ulTag.insertAdjacentHTML("beforeend", liTag);
 
-  const liAudioTag         = ulTag.querySelector(`.${songNameShort}`);
-  const liAudioDuartionTag = ulTag.querySelector(`#${songNameShort}`);
+    const liAudioTag         = ulTag.querySelector(`.${songNameShort}`);
+    const liAudioDuartionTag = ulTag.querySelector(`#${songNameShort}`);
 
-  liAudioTag.addEventListener("loadeddata", () => {
-    let duration = liAudioTag.duration;
-    let totalMin = Math.floor(duration / 60);
-    let totalSec = Math.floor(duration % 60);
-    if (totalSec < 10) totalSec = `0${totalSec}`;
-    liAudioDuartionTag.innerText = `${totalMin}:${totalSec}`;
-    liAudioDuartionTag.setAttribute("t-duration", `${totalMin}:${totalSec}`);
-  });
+    liAudioTag.addEventListener("loadeddata", () => {
+      let duration = liAudioTag.duration;
+      let totalMin = Math.floor(duration / 60);
+      let totalSec = Math.floor(duration % 60);
+      if (totalSec < 10) totalSec = `0${totalSec}`;
+      liAudioDuartionTag.innerText = `${totalMin}:${totalSec}`;
+      liAudioDuartionTag.setAttribute("t-duration", `${totalMin}:${totalSec}`);
+    });
+  }
 }
 
 //play particular song from the list onclick of li tag
