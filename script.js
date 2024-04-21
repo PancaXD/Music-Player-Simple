@@ -1,6 +1,7 @@
 let now_playing    = document.querySelector('.now-playing');
 let recent_volume  = document.querySelector('#volume');
 let volume_show    = document.querySelector('#volume_show');
+
 const wrapper        = document.querySelector(".wrapper");
 const repeatBtn      = wrapper.querySelector("#repeat-plist");
 const musicName      = wrapper.querySelector(".song-details .name");
@@ -67,7 +68,7 @@ function togglePlay() {
   playingSong();
 }
 
-function updateProgressBar() {
+function updateProgressBar(e) {
   const currentTime = e.target.currentTime;
   const duration = e.target.duration;
   let progressWidth = (currentTime / duration) * 100;
@@ -99,7 +100,7 @@ function updateProgressBar() {
   musicCurrentTime.innerText = `${currentMin}:${currentSec}`;
 }
 
-function updatePlayTime() {
+function updatePlayTime(e) {
   let progressWidth = progressArea.clientWidth;
   let clickedOffsetX = e.offsetX;
   let songDuration = mainAudio.duration;
@@ -157,8 +158,8 @@ const toggleMusicList = () => musicList.classList.toggle("show");
 playPauseBtn.addEventListener("click", () => togglePlay());
 prevBtn.addEventListener("click", () => prevMusic());
 nextBtn.addEventListener("click", () => nextMusic());
-mainAudio.addEventListener("timeupdate", (e) => updateProgressBar());
-progressArea.addEventListener("click", (e) => updatePlayTime());
+mainAudio.addEventListener("timeupdate", (e) => updateProgressBar(e));
+progressArea.addEventListener("click", (e) => updatePlayTime(e));
 repeatBtn.addEventListener("click", () => toggleLoopRepeatShuffle());
 mainAudio.addEventListener("ended", () => decideActionOnSongEnd());
 moreMusicBtn.addEventListener("click", () => toggleMusicList());
