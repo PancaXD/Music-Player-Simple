@@ -1,11 +1,13 @@
-let now_playing    = document.querySelector('.now-playing');
-let recent_volume  = document.querySelector('#volume');
-let volume_show    = document.querySelector('#volume_show');
+let now_playing   = document.querySelector('.now-playing');
+let recent_volume = document.querySelector('#volume');
+let volume_show   = document.querySelector('#volume_show');
 
 const wrapper        = document.querySelector(".wrapper");
+const input          = wrapper.querySelector("#chooseFolder");
+const jsmediatags    = window.jsmediatags;
 const repeatBtn      = wrapper.querySelector("#repeat-plist");
 const musicName      = wrapper.querySelector(".song-details .name");
-const musicArtist    = wrapper.querySelector(".song-details .artist");
+//const musicArtist    = wrapper.querySelector(".song-details .artist");
 const playPauseBtn   = wrapper.querySelector(".play-pause");
 const prevBtn        = wrapper.querySelector("#prev");
 const nextBtn        = wrapper.querySelector("#next");
@@ -16,18 +18,21 @@ const musicList      = wrapper.querySelector(".music-list");
 const moreMusicBtn   = wrapper.querySelector("#more-music");
 const closemoreMusic = musicList.querySelector("#close");
 
+let allMusic = [ ];
+
+const loadFiles = () => {
+  allMusic = [...chooseFolder.files].map( file => file.name );
+  loadMusic(musicIndex);
+  playSongFromList(); 
+}
+
 mainAudio.volume = recent_volume.value / 100;
 
 let musicIndex = Math.floor((Math.random() * allMusic.length) + 1);
 
-window.addEventListener("load", () => {
-  loadMusic(musicIndex);
-  playSongFromList(); 
-});
-
 function loadMusic(index) {
   musicName.innerText = allMusic[index - 1];
-  musicArtist.innerText = allArtist[index - 1];
+  //musicArtist.innerText = allArtist[index - 1];
   mainAudio.src = `songs/${allMusic[index - 1]}`;
 }
 
@@ -140,6 +145,7 @@ function decideActionOnSongEnd() {
 const toggleMusicList = () => musicList.classList.toggle("show");
 
 // events
+input.addEventListener("change", () => loadFiles());
 playPauseBtn.addEventListener("click", () => togglePlay());
 prevBtn.addEventListener("click", () => prevMusic());
 nextBtn.addEventListener("click", () => nextMusic());
