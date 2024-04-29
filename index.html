@@ -17,12 +17,10 @@
             <p id="logo"><i class="fa fa-music"></i>Music</p>
             <label for="chooseFolder" class="customButtonStyle">Select Folder</label>
             <input type="file" webkitdirectory id="chooseFolder">
-            
         </div>
 
         <div class="song-details">
 		    <p class="name">No songs loaded.</p>
-		    <!--<p class="artist"></p>-->
         </div>
 
         <div class="progress-area">
@@ -37,43 +35,17 @@
         </div>
 
         <div class="volume">
-            <div id="volume_show">
-				15
-			</div>
-            <i class="fa fa-volume-up" aria-hidden="true" onclick="mute_sound()" id="volume_icon"></i>
             <input type="range" min="0" max="100" value="15" onchange="volume_change()" id="volume">  
         </div>
 
         <div class="controls">
-            <i id="repeat-plist" class="material-icons" title="Playlist looped">repeat</i>
             <i id="prev" class="material-icons">skip_previous</i>
             <div class="play-pause">
                 <i class="material-icons play">play_arrow</i>
             </div>
             <i id="next" class="material-icons">skip_next</i>
-            <i id="more-music" class="material-icons">queue_music</i>
         </div>
 
-        <div class="music-list">
-            <div class="header">
-                <div class="row">
-                    <i class= "list material-icons">queue_music</i>
-                    <span>Music list</span>
-                </div>
-                <i id="close" class="material-icons">close</i>
-            </div>
-            <ul>
-                <!-- here li list are coming from js -->
-
-                <!-- <li>
-                    <div class="row">
-                        <span>Despacito</span>
-                        <p>Justin</p>
-                    </div>
-                    <span class="audio-duration">2:34</span>
-                </li> -->
-            </ul>
-        </div>
     </div>
 
     <script src="script.js"></script>
